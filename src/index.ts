@@ -1,0 +1,1 @@
+export { defineAstelConfig } from './config'

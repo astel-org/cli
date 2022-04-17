@@ -1,0 +1,80 @@
+{
+  "name": "@astel/cli",
+  "version": "0.0.1",
+  "description": "CLI tools for Astel UI",
+  "keywords": [],
+  "homepage": "https://github.com/astel-org/cli",
+  "bugs": {
+    "url": "https://github.com/astel-org/cli/issues"
+  },
+  "license": "MIT",
+  "author": "Sumit Kolhe <thesumitkolhe@gmail.com>",
+  "files": [
+    "dist",
+    "bin",
+    "src"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "astel": "bin/astel.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astel-org/cli.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "rm -rf dist && unbuild",
+    "lint": "eslint . --ext .js,.ts,.json,.json5,.vue,.md --fix",
+    "pretty": "prettier --write .",
+    "prepublishOnly": "yarn build",
+    "release": "yarn publish",
+    "start": "esno src/cli.ts",
+    "dev": "node dist/cli.js"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^2.3.1",
+    "clean-css": "^5.3.0",
+    "colorette": "^2.0.16",
+    "commander": "^9.2.0",
+    "consola": "^2.15.3",
+    "console-table-printer": "^2.11.0",
+    "defu": "^6.0.0",
+    "esbuild": "^0.14.36",
+    "esbuild-plugin-vue": "^0.2.4",
+    "filesize": "^8.0.7",
+    "fs-extra": "^10.0.1",
+    "klaw-sync": "^6.0.0",
+    "less": "^4.1.2",
+    "prettier": "^2.6.2",
+    "rollup": "^2.70.2",
+    "rollup-plugin-postcss": "^4.0.2",
+    "shelljs": "^0.8.5",
+    "unconfig": "^0.3.3",
+    "vite": "^2.9.5",
+    "vue": "^3.2.33",
+    "vue-tsc": "^0.34.6"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.17.0",
+    "@kolhe/eslint-config": "^1.1.2",
+    "@types/clean-css": "^4.2.5",
+    "@types/fs-extra": "^9.0.13",
+    "@types/klaw-sync": "^6.0.1",
+    "@types/node": "^17.0.24",
+    "@types/prettier": "^2.6.0",
+    "@types/shelljs": "^0.8.11",
+    "eslint": "^8.13.0",
+    "esno": "^0.14.1",
+    "typescript": "^4.6.3",
+    "unbuild": "^0.7.4"
+  }
+}
