@@ -33,7 +33,7 @@
     "lint": "eslint . --ext .js,.ts,.json,.json5,.vue,.md --fix",
     "pretty": "prettier --write .",
     "prepublishOnly": "yarn build",
-    "release": "yarn publish",
+    "release": "np",
     "start": "esno src/cli.ts",
     "dev": "node dist/cli.js"
   },
