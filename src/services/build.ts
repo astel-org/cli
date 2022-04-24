@@ -7,6 +7,7 @@ import { bundleSummary } from '../plugins/bundle-summary'
 import { Logger } from '../utils/logger'
 import { getComponentEntries } from '../helpers/generate-entry'
 import { librarySummary } from '../plugins/library-summary'
+import { injectStyles } from '../plugins/inject-style'
 import type { UserConfig } from 'vite'
 import type { BuildOptions } from 'esbuild'
 import type { AstelConfig, Library } from '../config'
@@ -64,13 +65,10 @@ export class Builder {
       outdir: buildConfig.outputDir,
       bundle: true,
       entryPoints: componentEntries,
-      plugins: buildConfig.summary ? plugins : [vueEsbuildPlugin()],
+      plugins: buildConfig.summary ? plugins : [vueEsbuildPlugin(), injectStyles()],
       external: ['vue'],
       format,
       minifyWhitespace: true,
-      banner: {
-        js: `import './index.css'`,
-      },
       metafile: true,
     }
 
