@@ -48,10 +48,10 @@
     "consola": "^2.15.3",
     "console-table-printer": "^2.11.0",
     "defu": "^6.0.0",
-    "esbuild": "^0.14.36",
+    "esbuild": "^0.14.38",
     "esbuild-plugin-vue": "^0.2.4",
     "filesize": "^8.0.7",
-    "fs-extra": "^10.0.1",
+    "fs-extra": "^10.1.0",
     "klaw-sync": "^6.0.0",
     "less": "^4.1.2",
     "prettier": "^2.6.2",
@@ -61,7 +61,7 @@
     "unconfig": "^0.3.3",
     "vite": "^2.9.5",
     "vue": "^3.2.33",
-    "vue-tsc": "^0.34.6"
+    "vue-tsc": "^0.34.10"
   },
   "devDependencies": {
     "@babel/types": "^7.17.0",
@@ -69,10 +69,10 @@
     "@types/clean-css": "^4.2.5",
     "@types/fs-extra": "^9.0.13",
     "@types/klaw-sync": "^6.0.1",
-    "@types/node": "^17.0.24",
+    "@types/node": "^17.0.25",
     "@types/prettier": "^2.6.0",
     "@types/shelljs": "^0.8.11",
-    "eslint": "^8.13.0",
+    "eslint": "^8.14.0",
     "esno": "^0.14.1",
     "typescript": "^4.6.3",
     "unbuild": "^0.7.4"
