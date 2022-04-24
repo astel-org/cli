@@ -58,14 +58,18 @@ export class Builder {
   ) => {
     Logger.info(`Creating library...`, buildConfig.format)
 
-    const plugins = [vueEsbuildPlugin(), librarySummary()]
+    const plugins = [vueEsbuildPlugin(), injectStyles()]
+
+    // esbuild doesn't accept empty plugins, need to conditionally push plugins
+    if (buildConfig.summary) plugins.push(librarySummary())
+
     const format = buildConfig.format === 'umd' ? 'cjs' : buildConfig.format
 
     const esBuildConfig: BuildOptions = {
       outdir: buildConfig.outputDir,
       bundle: true,
       entryPoints: componentEntries,
-      plugins: buildConfig.summary ? plugins : [vueEsbuildPlugin(), injectStyles()],
+      plugins,
       external: ['vue'],
       format,
       minifyWhitespace: true,
