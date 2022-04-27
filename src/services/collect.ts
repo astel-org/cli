@@ -1,8 +1,8 @@
 import { writeFileSync } from 'fs-extra'
-import { getInstallTemplate } from '../templates/install.template'
 import { formatCode } from '../utils/format'
 import { Logger } from '../utils/logger'
 import { getComponentNames } from '../helpers/generate-name'
+import { getInstallTemplate } from '../templates/install.template'
 import type { AstelConfig } from '../config'
 
 export class Collect {
@@ -19,7 +19,7 @@ export class Collect {
         this.config.build.entry,
         this.config.ignoreDirs,
         this.config.build.prefix
-      ).filter((component) => component.name !== 'utils')
+      )
 
       const templateCode = getInstallTemplate(componentEntries)
 
