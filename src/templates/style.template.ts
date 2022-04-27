@@ -1,4 +1,4 @@
-export const styleTemplate = (prefix: string, componentName: string) => {
+export const getStyleTemplate = (prefix: string, componentName: string) => {
   return `.${prefix}-${componentName}{
   }`
 }

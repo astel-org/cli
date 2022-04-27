@@ -1,11 +1,11 @@
 import { mkdirSync, writeFileSync } from 'fs'
-import { dirname, resolve } from 'path'
+import { dirname, join } from 'path'
 import { formatCode, formatComponentName } from '../utils/format'
 import { checkIfComponentExists, checkIfComponentNameIsValid } from '../utils/validator'
 import { Logger } from '../utils/logger'
-import { indexTemplate } from '../templates/index.template'
-import { styleTemplate } from '../templates/style.template'
-import { vueTemplate } from '../templates/vue.template'
+import { getIndexTemplate } from '../templates/index.template'
+import { getStyleTemplate } from '../templates/style.template'
+import { getVueTemplate } from '../templates/vue.template'
 import type { AstelConfig } from '../config'
 
 export class Component {
@@ -18,7 +18,7 @@ export class Component {
     this.config = config
     this.componentName = componentName
     this.formattedComponentName = formatComponentName(componentName)
-    this.componentDir = resolve(dirname(this.config.build.entry), this.componentName)
+    this.componentDir = join(dirname(this.config.build.entry), this.componentName)
   }
 
   // generate a new component with given name
@@ -38,19 +38,16 @@ export class Component {
       mkdirSync(this.componentDir)
 
       // create vue SFC
-      const vue = vueTemplate(this.config.build.prefix, this.componentName)
-      writeFileSync(resolve(this.componentDir, `${this.componentName}.vue`), formatCode('vue', vue))
+      const vue = getVueTemplate(this.config.build.prefix, this.componentName)
+      writeFileSync(join(this.componentDir, `${this.componentName}.vue`), formatCode('vue', vue))
 
       // create style
-      const style = styleTemplate(this.config.build.prefix, this.componentName)
-      writeFileSync(resolve(this.componentDir, 'style.less'), formatCode('less', style))
+      const style = getStyleTemplate(this.config.build.prefix, this.componentName)
+      writeFileSync(join(this.componentDir, 'style.less'), formatCode('less', style))
 
       // create install
-      const installTemplate = indexTemplate(this.componentName, this.formattedComponentName)
-      writeFileSync(
-        resolve(this.componentDir, 'index.ts'),
-        formatCode('typescript', installTemplate)
-      )
+      const installTemplate = getIndexTemplate(this.componentName, this.formattedComponentName)
+      writeFileSync(join(this.componentDir, 'index.ts'), formatCode('typescript', installTemplate))
 
       Logger.success('Component generated successfully', 'cli')
     } catch (error) {

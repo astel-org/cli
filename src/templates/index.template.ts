@@ -1,7 +1,7 @@
-export const indexTemplate = (componentName: string, formattedComponentName: string) => {
+export const getIndexTemplate = (componentName: string, formattedComponentName: string) => {
   return `
+    import { withInstall } from '../utils'
     import _${formattedComponentName} from './${componentName}.vue'
-    import { withInstall } from '../utils/with-install'
 
     export const ${formattedComponentName} = withInstall(_${formattedComponentName})
 

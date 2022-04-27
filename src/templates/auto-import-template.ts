@@ -1,6 +1,6 @@
 import type { ComponentNames } from '../helpers/generate-name'
 
-export const autoImportTemplate = (packageName: string, components: ComponentNames[]) => {
+export const getAutoImportTemplate = (packageName: string, components: ComponentNames[]) => {
   return `
       declare module '@vue/runtime-core' {
         export interface GlobalComponents {

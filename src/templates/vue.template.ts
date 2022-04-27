@@ -1,10 +1,12 @@
-export const vueTemplate = (prefix: string, componentName: string) => {
+import { formatComponentName } from '../utils/format'
+
+export const getVueTemplate = (prefix: string, componentName: string) => {
   return `
     <script lang="ts">
     import { computed, defineComponent } from 'vue'
 
     export default defineComponent({
-      name: '${prefix}-${componentName}',
+      name: '${formatComponentName(`${prefix}-${componentName}`)}',
       props: {},
       setup() {
         const rootClasses = computed(() => ({}))
