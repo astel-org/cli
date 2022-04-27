@@ -67,7 +67,7 @@ export const resolveConfig = async () => {
     return mergedConfig
   } catch (error) {
     if (error instanceof Error) {
-      Logger.error(error.stack)
+      Logger.error(error.message)
       process.exit(1)
     }
   }
