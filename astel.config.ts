@@ -1,7 +1,7 @@
 import { defineAstelConfig } from './src/config'
 
 export default defineAstelConfig({
-  ignoreDirs: ['.DS_Store', 'utils'],
+  ignoreDirs: ['.DS_Store'],
   build: {
     entry: 'library/index.ts',
     prefix: 'as',
