@@ -1,4 +1,4 @@
-import path from 'path'
+import path, { join } from 'path'
 import { existsSync, readFileSync, writeFileSync } from 'fs-extra'
 import { Logger } from '../utils/logger'
 import type { BuildResult, Plugin } from 'esbuild'
@@ -19,7 +19,7 @@ export const injectStyles = (): Plugin => {
 
             const dirName = path.dirname(filePath)
 
-            if (existsSync(`${dirName}/index.css`)) {
+            if (existsSync(join(dirName, 'index.css'))) {
               const data = readFileSync(filePath).toString().split('\n')
               data.splice(0, 0, `import './index.css'`)
               const text = data.join('\n')

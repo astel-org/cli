@@ -1,3 +1,4 @@
+import { join } from 'path'
 import { readFileSync, removeSync, writeFileSync } from 'fs-extra'
 import { build as esBuilder, transformSync } from 'esbuild'
 import vueEsbuildPlugin from 'esbuild-plugin-vue'
@@ -82,7 +83,9 @@ export class Builder {
     // transform index file since its not processed when iterating over folders
     const indexContent = readFileSync(mainEntry, 'utf-8')
     const indexOutput = transformSync(indexContent, { loader: 'ts', format })
-    writeFileSync(`${buildConfig.outputDir}/index.js`, indexOutput.code)
+
+    const outFile = join(buildConfig.outputDir, 'index.js')
+    writeFileSync(outFile, indexOutput.code)
 
     Logger.success('Library created', buildConfig.format)
   }

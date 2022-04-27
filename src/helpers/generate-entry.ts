@@ -1,4 +1,4 @@
-import path from 'path'
+import path, { join } from 'path'
 import klawSync from 'klaw-sync'
 
 export interface ComponentEntries {
@@ -21,7 +21,8 @@ export const getComponentEntries = (entry: string, ignoreDirs: string[]) => {
       return !ignoreDirs.includes(basename)
     },
   }).forEach((dir) => {
-    componentEntries.push(`${dir.path}/index.ts`)
+    const entry = join(dir.path, 'index.ts')
+    componentEntries.push(entry)
   })
 
   return componentEntries

@@ -1,10 +1,10 @@
-import { dirname, join, resolve } from 'path'
+import { dirname, join } from 'path'
 import { cwd } from 'process'
 import { exec } from 'shelljs'
 import { ensureFileSync, readFile, readJSONSync, removeSync, writeFileSync } from 'fs-extra'
 import { Logger } from '../utils/logger'
 import { getComponentNames } from '../helpers/generate-name'
-import { autoImportTemplate } from '../templates/auto-import-template'
+import { getAutoImportTemplate } from '../templates/auto-import-template'
 import { formatCode } from '../utils/format'
 import type { AstelConfig } from '../config'
 
@@ -40,7 +40,7 @@ export class Types {
   private buildDts = async (entry: string, outDir: string) => {
     try {
       Logger.info('Building types', 'DTS')
-      const declarationContent = await readFile(resolve(__dirname, '..', 'dts.json'))
+      const declarationContent = await readFile(join(__dirname, '..', 'dts.json'))
 
       const resolvedPath = join(dirname(entry), 'dts.json')
 
@@ -60,7 +60,7 @@ export class Types {
     try {
       Logger.info('Building Auto Imports', 'DTS')
 
-      const pkg = readJSONSync(resolve(cwd(), 'package.json'))
+      const pkg = readJSONSync(join(cwd(), 'package.json'))
 
       const componentsEntries = getComponentNames(
         this.config.build.entry,
@@ -68,9 +68,9 @@ export class Types {
         this.config.build.prefix
       )
 
-      const autoimport = autoImportTemplate(pkg.name || '@astel', componentsEntries)
+      const autoimport = getAutoImportTemplate(pkg.name || '@astel', componentsEntries)
 
-      const dtsPath = resolve(dirname(outDir), 'components.d.ts')
+      const dtsPath = join(dirname(outDir), 'components.d.ts')
 
       ensureFileSync(dtsPath)
 
