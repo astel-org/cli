@@ -45,7 +45,7 @@ const defaultConfig: Partial<AstelConfig> = {
   },
 }
 
-export const defineAstelConfig = (config: AstelConfig): AstelConfig => {
+export const defineAstelConfig = (config: Partial<AstelConfig>): Partial<AstelConfig> => {
   return config
 }
 
@@ -66,7 +66,7 @@ export const resolveConfig = async () => {
         'Config not found. Make sure to place astel.config.ts/js at the root of the project'
       )
 
-    if (!config.build.entry || !extname(config.build.entry))
+    if (!config?.build?.entry || !extname(config?.build?.entry))
       throw new Error('Entry path should end in .ts or .js')
 
     const mergedConfig = defu(config, defaultConfig)
