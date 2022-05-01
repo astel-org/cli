@@ -2,14 +2,15 @@ import { defineAstelConfig } from './src/config'
 
 export default defineAstelConfig({
   ignoreDirs: ['.DS_Store'],
+  prefix: 'as',
+  declarationDir: 'dist/types',
   build: {
     entry: 'library/index.ts',
-    prefix: 'as',
-    emptyOutDir: true,
-    declaration: true,
     library: [
-      { name: 'astel', format: 'esm', outputDir: 'dist/es', bundle: true, summary: true },
-      { name: 'astel', format: 'umd', outputDir: 'dist/lib', bundle: true, summary: true },
+      { format: 'esm', outputDir: 'dist/es', summary: true },
+      { format: 'umd', outputDir: 'dist/lib', summary: true },
     ],
+
+    bundle: [{ name: 'avid', format: 'esm', outputDir: 'dist/es', summary: true }],
   },
 })

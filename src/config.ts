@@ -6,35 +6,42 @@ import { Logger } from './utils/logger'
 
 export type Formats = 'esm' | 'umd'
 
-export interface Library {
+export interface LibraryOptions {
+  outputDir: string
+  format: Formats
+  summary: boolean
+}
+
+export interface BundleOptions {
   outputDir: string
   format: Formats
   name: string
-  bundle: boolean
   summary: boolean
 }
 
 export interface Build {
   entry: string
-  prefix: string
-  declaration: boolean | string
-  library: Library[]
-  emptyOutDir: boolean
+  emptyOutDir?: boolean
+  library?: LibraryOptions[]
+  bundle?: BundleOptions[]
 }
 
 export interface AstelConfig {
   build: Build
+  prefix: string
   ignoreDirs: string[]
+  declarationDir: string
 }
 
 const defaultConfig: Partial<AstelConfig> = {
   ignoreDirs: ['.DS_Store'],
+  prefix: 'as',
+  declarationDir: 'dist/types',
   build: {
     entry: cwd(),
-    prefix: 'as',
     emptyOutDir: false,
-    declaration: false,
     library: [],
+    bundle: [],
   },
 }
 
