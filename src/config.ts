@@ -6,10 +6,14 @@ import { Logger } from './utils/logger'
 
 export type Formats = 'esm' | 'umd'
 
+export type MinifySubOptions = 'whitespace' | 'identifiers' | 'syntax'
+export type MinifyOptions = Boolean | MinifySubOptions[]
+
 export interface LibraryOptions {
   outputDir: string
   format: Formats
-  summary: boolean
+  summary?: boolean
+  minify?: MinifyOptions
 }
 
 export interface BundleOptions {

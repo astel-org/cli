@@ -12,7 +12,7 @@ import { librarySummary } from '../plugins/library-summary'
 import { injectStyles } from '../plugins/inject-style'
 import type { UserConfig } from 'vite'
 import type { BuildOptions } from 'esbuild'
-import type { AstelConfig, BundleOptions, LibraryOptions } from '../config'
+import type { AstelConfig, BundleOptions, LibraryOptions, MinifySubOptions } from '../config'
 
 export class Builder {
   private config: AstelConfig
@@ -71,14 +71,40 @@ export class Builder {
     mainEntry: string,
     buildConfig: LibraryOptions
   ) => {
-    Logger.info(`Creating library...`, buildConfig.format)
-
+    // get plugins
     const plugins = [vueEsbuildPlugin(), injectStyles()]
 
-    // esbuild doesn't accept empty plugins, need to conditionally push plugins
+    // esbuild does not accept empty plugins array, need to add plugins conditionally
     if (buildConfig.summary) plugins.push(librarySummary())
 
+    // sanitize build format
     const format = buildConfig.format === 'umd' ? 'cjs' : buildConfig.format
+
+    // set minification options
+    const minificationOptions: Record<string, boolean> = {
+      minifyIdentifiers: false,
+      minifySyntax: false,
+      minifyWhitespace: false,
+    }
+
+    if (buildConfig?.minify === true) {
+      Object.keys(minificationOptions).forEach((key: string) => {
+        minificationOptions[key] = true
+      })
+    } else if (buildConfig?.minify === false) {
+      Object.keys(minificationOptions).forEach((key: string) => {
+        minificationOptions[key] = false
+      })
+    } else {
+      const options = buildConfig?.minify?.valueOf() as MinifySubOptions
+      Object.keys(minificationOptions).forEach((key: string) => {
+        if (options?.includes(key.toString().split('minify')[1].toLowerCase())) {
+          minificationOptions[key] = true
+        }
+      })
+    }
+
+    Logger.info(`Creating library...`, buildConfig.format)
 
     const esBuildConfig: BuildOptions = {
       outdir: buildConfig.outputDir,
@@ -87,8 +113,8 @@ export class Builder {
       plugins,
       external: ['vue'],
       format,
-      minifyWhitespace: true,
       metafile: true,
+      ...minificationOptions,
     }
 
     // write bundle
