@@ -19,10 +19,7 @@ export class Types {
     try {
       if (!this.config.build.entry) return
 
-      let outDir: string
-
-      if (this.config.build.declaration === true) outDir = 'dist/types'
-      else outDir = this.config.build.declaration as string
+      const outDir = this.config.declarationDir
 
       // create types
       await this.buildDts(this.config.build.entry, outDir)
@@ -65,7 +62,7 @@ export class Types {
       const componentsEntries = getComponentNames(
         this.config.build.entry,
         this.config.ignoreDirs!,
-        this.config.build.prefix
+        this.config.prefix
       )
 
       const autoimport = getAutoImportTemplate(pkg.name || '@astel', componentsEntries)

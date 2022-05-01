@@ -18,7 +18,7 @@ export class Collect {
       const componentEntries = getComponentNames(
         this.config.build.entry,
         this.config.ignoreDirs,
-        this.config.build.prefix
+        this.config.prefix
       )
 
       const templateCode = getInstallTemplate(componentEntries)

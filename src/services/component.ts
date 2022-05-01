@@ -38,11 +38,11 @@ export class Component {
       mkdirSync(this.componentDir)
 
       // create vue SFC
-      const vue = getVueTemplate(this.config.build.prefix, this.componentName)
+      const vue = getVueTemplate(this.config.prefix, this.componentName)
       writeFileSync(join(this.componentDir, `${this.componentName}.vue`), formatCode('vue', vue))
 
       // create style
-      const style = getStyleTemplate(this.config.build.prefix, this.componentName)
+      const style = getStyleTemplate(this.config.prefix, this.componentName)
       writeFileSync(join(this.componentDir, 'style.less'), formatCode('less', style))
 
       // create install
