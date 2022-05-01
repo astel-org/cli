@@ -7,10 +7,19 @@ export default defineAstelConfig({
   build: {
     entry: 'library/index.ts',
     library: [
-      { format: 'esm', outputDir: 'dist/es', summary: true },
-      { format: 'umd', outputDir: 'dist/lib', summary: true },
+      {
+        format: 'esm',
+        outputDir: 'dist/es',
+        summary: true,
+        minify: ['identifiers', 'syntax', 'whitespace'],
+      },
+      {
+        format: 'umd',
+        outputDir: 'dist/lib',
+        summary: false,
+        minify: ['syntax', 'identifiers', 'whitespace'],
+      },
     ],
-
     bundle: [{ name: 'avid', format: 'esm', outputDir: 'dist/es', summary: true }],
   },
 })
