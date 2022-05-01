@@ -1,9 +1,10 @@
 import { join } from 'path'
-import { readFileSync, removeSync, writeFileSync } from 'fs-extra'
+import { emptyDirSync, readFileSync, writeFileSync } from 'fs-extra'
 import { build as esBuilder, transformSync } from 'esbuild'
 import vueEsbuildPlugin from 'esbuild-plugin-vue'
 import { build as viteBuilder } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { redBright } from 'colorette'
 import { bundleSummary } from '../plugins/bundle-summary'
 import { Logger } from '../utils/logger'
 import { getComponentEntries } from '../helpers/generate-entry'
@@ -11,7 +12,7 @@ import { librarySummary } from '../plugins/library-summary'
 import { injectStyles } from '../plugins/inject-style'
 import type { UserConfig } from 'vite'
 import type { BuildOptions } from 'esbuild'
-import type { AstelConfig, Library } from '../config'
+import type { AstelConfig, BundleOptions, LibraryOptions } from '../config'
 
 export class Builder {
   private config: AstelConfig
@@ -22,23 +23,36 @@ export class Builder {
 
   public buildPackages = async () => {
     try {
-      Logger.info('Build Started', 'cli')
+      if (this.config.build.bundle!.length === 0 && this.config.build.library!.length === 0)
+        return Logger.info('No build config found', 'cli')
 
-      for (const build of this.config.build.library) {
-        if (this.config.build.emptyOutDir) {
-          Logger.info('Clearing out dir', 'cli')
-          removeSync(build.outputDir)
+      Logger.info('Build Started...', 'cli')
+
+      if (this.config.build.library!.length > 0) {
+        for (const build of this.config.build.library!) {
+          if (this.config.build.emptyOutDir) {
+            Logger.info(`Clearing output directory [${redBright(build.outputDir)}]`, 'cli')
+            emptyDirSync(build.outputDir)
+          }
+
+          // create library
+          const componentEntries = getComponentEntries(
+            this.config.build.entry,
+            this.config.ignoreDirs
+          )
+          const mainEntry = this.config.build.entry
+          await this.buildLibrary(componentEntries, mainEntry, build)
         }
+      }
 
-        // create library
-        const componentEntries = getComponentEntries(
-          this.config.build.entry,
-          this.config.ignoreDirs
-        )
-        const mainEntry = this.config.build.entry
-        await this.buildLibrary(componentEntries, mainEntry, build)
-        // create bundle
-        if (build.bundle) {
+      if (this.config.build.bundle!.length > 0) {
+        for (const build of this.config.build.bundle!) {
+          if (this.config.build.emptyOutDir) {
+            Logger.info(`Clearing output directory [${redBright(build.outputDir)}]`, 'cli')
+            emptyDirSync(build.outputDir)
+          }
+
+          // create bundle
           await this.buildBundle(this.config.build.entry, build)
         }
       }
@@ -55,7 +69,7 @@ export class Builder {
   private buildLibrary = async (
     componentEntries: string[],
     mainEntry: string,
-    buildConfig: Library
+    buildConfig: LibraryOptions
   ) => {
     Logger.info(`Creating library...`, buildConfig.format)
 
@@ -90,7 +104,7 @@ export class Builder {
     Logger.success('Library created', buildConfig.format)
   }
 
-  private buildBundle = async (entry: string, buildConfig: Library) => {
+  private buildBundle = async (entry: string, buildConfig: BundleOptions) => {
     Logger.info(`Creating bundle...`, buildConfig.format)
 
     const viteConfig: UserConfig = {
