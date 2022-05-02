@@ -8,7 +8,7 @@ export const getInstallTemplate = (components: ComponentNames[]) => {
 
   components.forEach((component) => {
     if (component.name === 'utils') {
-      utilsExport += `export * from './utils/composables';\n`
+      utilsExport += `export * from './utils';\n`
       return
     }
 
