@@ -3,9 +3,9 @@ import { dirname, join } from 'path'
 import { formatCode, formatComponentName } from '../utils/format'
 import { checkIfComponentExists, checkIfComponentNameIsValid } from '../utils/validator'
 import { Logger } from '../utils/logger'
-import { getIndexTemplate } from '../templates/index.template'
-import { getStyleTemplate } from '../templates/style.template'
-import { getVueTemplate } from '../templates/vue.template'
+import { getIndexTemplate } from '../templates/index-template'
+import { getStyleTemplate } from '../templates/style-template'
+import { getVueTemplate } from '../templates/vue-template'
 import type { AstelConfig } from '../config'
 
 export class Component {
